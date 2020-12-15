@@ -3,7 +3,7 @@
 class Categorie extends Database{
 
     
-    public function getCategories()
+    public function getAll()
     {
         $query = $this->pdo->query("SELECT * FROM categorie");
         header("Content-type:Application/json");
@@ -13,14 +13,14 @@ class Categorie extends Database{
         // Pour récupérer une valeur d'un tableau, je fais $array[key]
         // Pour récupérer une valeur d'un objet, je fais $array->key
     }
-    public function getCategorie($id)
+    public function getOne($id)
     {
         $query = $this->pdo->query("SELECT * FROM categorie WHERE id = $id");
         header("Content-type:Application/json");
         echo json_encode($query->fetch(PDO::FETCH_OBJ));
     }
 
-    public function postCategorie($data)
+    public function postOne($data)
     {
         try {
 
@@ -45,7 +45,7 @@ class Categorie extends Database{
         }
     }
 
-    public function deleteCategorie($id)
+    public function deleteOne($id)
     {
         try {
             $prepare = $this->pdo->prepare("DELETE FROM categorie WHERE id = $id");
@@ -67,7 +67,7 @@ class Categorie extends Database{
             ]);
         }
     }
-    public function updateCategorie($data)
+    public function updateOne($data)
     {
         try {
             $prepare = $this->pdo->prepare("UPDATE categorie SET name = :name WHERE id = :id");
