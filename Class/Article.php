@@ -75,9 +75,9 @@ class Article extends Database{
     {
         try {
             $data = json_decode($json);
-            // foreach ($data as $key => $value) {
-            //     $data[$key] = htmlspecialchars($value);
-            // }
+            foreach ($data as $key => $value) {
+                $data[$key] = htmlspecialchars($value);
+            }
 
             $prepare = $this->pdo->prepare("UPDATE article SET 
                 title = :title,
