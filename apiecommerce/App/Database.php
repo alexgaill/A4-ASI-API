@@ -9,7 +9,7 @@ class Database{
      */
     public function __construct(){
         try {
-            $this->pdo = new PDO("mysql:host=localhost:8889;dbname=blog", "root", "root");
+            $this->pdo = new PDO("mysql:host=localhost:8889;dbname=apiecommerce", "root", "root");
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
         } catch (\PDOException $e) {
@@ -17,9 +17,4 @@ class Database{
             echo $e->getMessage();
         }
     }
-
-    // public function getPdo()
-    // {
-    //     return $this->pdo;
-    // }
 }

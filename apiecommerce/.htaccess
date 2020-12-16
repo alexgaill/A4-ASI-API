@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteRule ^/?([a-z]+)/([0-9]*)$ ?entity=$1&id=$2 [L]
+RewriteRule ^/?([a-z]+)/([a-z]+)$ ?entity=$1&method=$2 [L]
+RewriteRule ^/?([a-z]+)$ ?entity=$1 [L]

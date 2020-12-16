@@ -1,17 +1,17 @@
 <?php
 
-class Categorie extends Database{
+class Article extends Database{
 
     /**
-     * Get List of Categories
+     * Get List of Articles
      *
      * @return void
      */
     public function getAll()
     {
         try {
-            $query = $this->pdo->query("SELECT * FROM categorie");
-            General::sendData(200, "Liste des categories", $query->fetchAll(PDO::FETCH_OBJ));
+            $query = $this->pdo->query("SELECT * FROM article");
+            General::sendData(200, "Liste des articles", $query->fetchAll(PDO::FETCH_OBJ));
 
         } catch (\PDOException $e) {
             General::sendError(400, $e->getMessage());
@@ -20,7 +20,7 @@ class Categorie extends Database{
     }
 
     /**
-     * Get one category by id
+     * Get one article by id
      *
      * @param integer $id
      * @return void
@@ -29,8 +29,8 @@ class Categorie extends Database{
     {
         try {
             if (is_int($id)) {
-                $query = $this->pdo->query("SELECT * FROM categorie WHERE id = $id");
-                General::sendData(200, "Données de la categorie." , $query->fetch(PDO::FETCH_OBJ));
+                $query = $this->pdo->query("SELECT * FROM article WHERE id = $id");
+                General::sendData(200, "Données de l'article." , $query->fetch(PDO::FETCH_OBJ));
                 
             } else {
                 General::sendError(400, "Erreur d'identifiant, nécessite un integer");
@@ -42,7 +42,7 @@ class Categorie extends Database{
     }
 
     /**
-     * Save category in DB
+     * Save an article in DB
      *
      * @param array $data
      * @return void
@@ -54,11 +54,11 @@ class Categorie extends Database{
                 $data[$key] = htmlspecialchars($value);
             }
             var_dump($data);
-            $prepare = $this->pdo->prepare("INSERT INTO categorie (name)
-                                            VALUES (:name)");
+            $prepare = $this->pdo->prepare("INSERT INTO article (title, content, categorie_id)
+                                            VALUES (:title, :content, :categorie_id)");
             $prepare->execute($data);
 
-            General::sendData(200, "Categorie enregistré!");
+            General::sendData(200, "Article enregistré!");
 
         } catch (\PDOException $e) {
             General::sendError(400, $e->getMessage());
@@ -66,7 +66,7 @@ class Categorie extends Database{
     }
 
     /**
-     * update category in DB
+     * update an article in DB
      *
      * @param array $data
      * @return void
@@ -75,20 +75,24 @@ class Categorie extends Database{
     {
         try {
             $data = json_decode($json);
-            foreach ($data as $key => $value) {
-                $data[$key] = htmlspecialchars($value);
-            }
+            // foreach ($data as $key => $value) {
+            //     $data[$key] = htmlspecialchars($value);
+            // }
 
-            $prepare = $this->pdo->prepare("UPDATE categorie SET 
-                name = :title,
+            $prepare = $this->pdo->prepare("UPDATE article SET 
+                title = :title,
+                content = :content,
+                categorie_id = :categorie_id
                 WHERE id = $id
             ");
-            $prepare->bindParam(":name", $data->title);
+            $prepare->bindParam(":title", $data->title);
+            $prepare->bindParam(":content", $data->content);
+            $prepare->bindParam(":categorie_id", $data->categorie_id);
             $prepare->execute();
 
-            $query = $this->pdo->query("SELECT * FROM categorie WHERE id = $id");
+            $query = $this->pdo->query("SELECT * FROM article WHERE id = $id");
 
-            General::sendData(200, "Categorie modifié!", $query->fetch(PDO::FETCH_OBJ));
+            General::sendData(200, "Article modifié!", $query->fetch(PDO::FETCH_OBJ));
 
         } catch (\PDOException $e) {
             General::sendError(400, $e->getMessage());
@@ -96,7 +100,7 @@ class Categorie extends Database{
     }
 
     /**
-     * Delete categorie
+     * Delete an article
      *
      * @param integer $id
      * @return void
@@ -105,10 +109,10 @@ class Categorie extends Database{
     {
         try {
             if (is_int($id)) {
-                $prepare = $this->pdo->prepare("DELETE FROM categorie WHERE id = $id");
+                $prepare = $this->pdo->prepare("DELETE FROM article WHERE id = $id");
                 $prepare->execute();
                 
-                General::sendData(200, "Categorie supprimé!");
+                General::sendData(200, "Article supprimé!");
             } else {
             General::sendError(400, "Erreur d'identifiant, nécessite un integer");
             }
