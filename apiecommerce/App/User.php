@@ -1,5 +1,7 @@
 <?php
 
+use Firebase\JWT\JWT;
+
 class User extends General{
 
     /**
@@ -18,8 +20,8 @@ class User extends General{
                     $data[$key] = htmlspecialchars($value);
                 }
             }
-
-            $statement = "INSERT INTO user (firstname, lastname, email, password) VALUES (:firstname, :lastname, :email, :password)";
+            $data["role"] = ["ROLE_USER"];
+            $statement = "INSERT INTO user (firstname, lastname, email, password, role) VALUES (:firstname, :lastname, :email, :password, :role)";
             $this->postData($statement, $data, 2);
 
             $this->sendData(200, "User saved");
@@ -36,9 +38,15 @@ class User extends General{
     {
             $statement = "SELECT * FROM user WHERE email = '". $data["email"] ."'";
             $user = $this->getData($statement, true);
-
             if (password_verify($data["password"], $user->password) ) {
-                $this->sendData(200, "User ok", $user);
+                $key = "toto";
+                $payload = array(
+                    "exp" => 1272508903998, // Now + 20 minutes
+                    "user" => $user
+                );
+                $jwt = JWT::encode($payload, $key);
+
+                $this->sendData(200, "User ok", $jwt);
             } else {
                 $this->sendError(400, "Invalid parameter");
             }
