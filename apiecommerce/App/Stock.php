@@ -48,22 +48,11 @@ class Stock extends General{
      */
     public function updateOne(int $id, string $json)
     {
-        try {
             $updateStatement = "UPDATE stock SET quantityInStock = :quantityInStock WHERE stock_id = $id";
             $getStatement = "SELECT * FROM stock WHERE stock_id = $id";
-            $data = json_decode($json);
-
-            $prepare = $this->pdo->prepare($updateStatement);
-            $prepare->bindParam(":quantityInStock", $data->quantityInStock);
-            $prepare->execute();
-
-            $stock = $this->getData($getStatement);
+            
+            $stock = $this->updateData($json, $updateStatement, $getStatement);
 
             $this->sendData(200, "Stock updated", $stock);
-        } catch (\PDOException $e) {
-            $this->sendError("400", $e->getMessage());
-        }
-
-
     }
 }

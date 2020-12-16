@@ -84,4 +84,24 @@ class General extends Database{
         }
 
     }
+
+    public function updateData($json, $updateStatement, $getStatement)
+    {
+        try{
+            $json = str_replace("+"," ", $json);
+            $array = explode("&", $json);
+            $data = array();
+            foreach ($array as $value) {
+                $info = explode("=", $value);
+                $data[$info[0]] = $info[1];
+            }
+
+            $this->postData($updateStatement, $data, 2);
+
+            return $this->getData($getStatement);
+        
+        } catch(\PDOException $e){
+            $this->sendError(400, $e->getMessage());
+        }
+    }
 }

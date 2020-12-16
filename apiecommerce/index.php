@@ -9,12 +9,14 @@ try {
         
         $class = ucfirst($_GET["entity"]);
         $controller = new $class();
+        // => $controller = new User();
         
         if (array_key_exists("method", $_GET)) {
             $method = $_GET["method"];
             switch ($_SERVER["REQUEST_METHOD"]) {
                 case 'POST':
                     $controller->$method($_POST);
+                    // => $controller->login($_POST);
                     break;
             }
         } else { 

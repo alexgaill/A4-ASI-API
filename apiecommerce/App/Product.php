@@ -61,8 +61,6 @@ class Product extends General{
      */
     public function updateOne(int $id, string $json)
     {
-        try{
-            $data = json_decode($json);
             $updateStatement = "UPDATE product SET 
                             name = :name,
                             infos = :infos,
@@ -71,20 +69,9 @@ class Product extends General{
                             WHERE product_id = $id";
             $getStatement = "SELECT * FROM product WHERE product_id = $id";
             
-            $prepare = $this->pdo->prepare($updateStatement);
-            $prepare->bindParam(":name", $data->name);
-            $prepare->bindParam(":infos", $data->infos);
-            $prepare->bindParam(":buyPrice", $data->buyPrice);
-            $prepare->bindParam(":sellPrice", $data->sellPrice);
-            $prepare->execute();
-
-            $product = $this->getData($getStatement);
+            $product = $this->updateData($json, $updateStatement, $getStatement);
 
             $this->sendData(200, "Product updated", $product);
-        
-        } catch(\PDOException $e){
-            $this->sendError(400, $e->getMessage());
-        }
     }
 
     /**

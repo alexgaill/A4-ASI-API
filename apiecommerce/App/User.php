@@ -68,7 +68,6 @@ class User extends General{
      */
     public function updateOne(int $id, string $json)
     {
-            $data = json_decode($json);
             $updateStatement = "UPDATE user SET
                             firstname = :firstname,
                             lastname = :lastname,
@@ -76,13 +75,7 @@ class User extends General{
                             WHERE user_id = $id";
             $getStatement = "SELECT * FROM user WHERE user_id = $id";
 
-            $prepare = $this->pdo->prepare($updateStatement);
-            $prepare->bindParam(":firstname", $data->firstname);
-            $prepare->bindParam(":lastname", $data->lastname);
-            $prepare->bindParam(":email", $data->email);
-            $prepare->execute();
-
-            $user = $this->getData($getStatement);
+            $user = $this->updateData($json, $updateStatement, $getStatement);
             $this->sendData(200, "User updated", $user);
     }
 
