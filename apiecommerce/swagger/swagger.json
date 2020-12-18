@@ -31,11 +31,13 @@
                                             "id": {
                                                 "description": "Get products",
                                                 "type": "integer",
+                                                "example": "1",
                                                 "nullable": true
                                             },
                                             "name": {
                                                 "description": "Get products",
                                                 "type": "string",
+                                                "example": "product n°1",
                                                 "nullable": false
                                             },
                                             "infos": {
@@ -181,6 +183,275 @@
                     }
                 }
             }
+        },
+        "product/{id}": {
+            "delete": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Delete one product",
+                "operationId": "Product::deleteOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Validation de suppression",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "Produit bien supprimé"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/stock": {
+            "get": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Get stock list",
+                "operationId": "Stock::getAll",
+                "responses": {
+                    "200": {
+                        "description": "Récupère l'ensemble des stocks",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Stock"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "stock/{id}": {
+            "get": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "get stock",
+                "operationId": "Stock::getOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "récupération d'un stock suivant son id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Stock"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Update stock",
+                "operationId": "Stock::updateOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/postStock"
+                },
+                "responses": {
+                    "200": {
+                        "description": "récupération d'un stock suivant son id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Stock"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/signup": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Save user in DB",
+                "operationId": "User::signup",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/postUser"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur enregistré",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "L'utilisateur a bien été enregistré"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Verify user in DB",
+                "operationId": "User::login",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/login"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur enregistré",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "L'utilisateur a bien été enregistré"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get users",
+                "operationId": "User::getAll",
+                "responses": {
+                    "200": {
+                        "description": "récupération d'un stock suivant son id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user",
+                "operationId": "User::updateOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/updateUser"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mise à jour de l'utilisateur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete user",
+                "operationId": "User::deleteOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Suppression de l'utilisateur ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -188,8 +459,7 @@
             "Product": {
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": "integer"
                     },
                     "name": {
                         "type": "string",
@@ -206,6 +476,48 @@
                     "sellPrice": {
                         "type": "integer",
                         "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "Stock": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "product_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantityInStock": {
+                        "type": "integer",
+                        "example": 132
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "firstname": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "lastname": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@doe.fr"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password"
                     }
                 },
                 "type": "object"
@@ -235,6 +547,115 @@
                                 },
                                 "sellPrice": {
                                     "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "postStock": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "product_id",
+                                "quantityInStock"
+                            ],
+                            "properties": {
+                                "product_id": {
+                                    "type": "integer"
+                                },
+                                "quantityInStock": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "postUser": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "firstname",
+                                "lastname",
+                                "email",
+                                "password"
+                            ],
+                            "properties": {
+                                "firstname": {
+                                    "type": "string",
+                                    "example": "John"
+                                },
+                                "lastname": {
+                                    "type": "string",
+                                    "example": "Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "john@doe.fr"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "password"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "updateUser": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "firstname",
+                                "lastname",
+                                "email"
+                            ],
+                            "properties": {
+                                "firstname": {
+                                    "type": "string",
+                                    "example": "John"
+                                },
+                                "lastname": {
+                                    "type": "string",
+                                    "example": "Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "john@doe.fr"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "login": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email",
+                                "password"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "john@doe.fr"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "password"
                                 }
                             },
                             "type": "object"

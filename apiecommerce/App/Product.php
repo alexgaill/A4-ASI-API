@@ -9,7 +9,6 @@ class Product extends General{
         /**
          * @OA\Property(
          *      type="integer",
-         *      nullable=true
          * )
          *
          * @var int
@@ -71,12 +70,14 @@ class Product extends General{
      *                                  @OA\Property(
      *                                          property="id",
      *                                          type="integer",
-     *                                          nullable=true
+     *                                          nullable=true,
+     *                                          example="1"
      *                                  ),
      *                                  @OA\Property(
      *                                          property="name",
      *                                          type="string",
-     *                                          nullable=false
+     *                                          nullable=false,
+     *                                          example="product n°1"
      *                                  ),
      *                                  @OA\Property(
      *                                          property="infos",
@@ -242,7 +243,24 @@ class Product extends General{
 
     /**
      * Delete one product
-     * method="DELETE"
+     * @OA\Delete(
+     *          path="product/{id}",
+     *          tags={"Product"},
+     *          @OA\Parameter(
+     *                  name="id",
+     *                  in="path",
+     *                  required=true,
+     *                  @OA\Schema(type="integer")
+     *          ),
+     *          @OA\Response(
+     *                  response="200",
+     *                  description="Validation de suppression",
+     *                  @OA\JsonContent(
+     *                          type="string",
+     *                          example="Produit bien supprimé"
+     *                  )
+     *          )
+     * )
      *
      * @param integer $id
      * @return void

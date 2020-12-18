@@ -1,10 +1,55 @@
 <?php
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema
+ */
 class Stock extends General{
+
+        /**
+         * @OA\Property(
+         *      type="integer",
+         *      example=1
+         * )
+         *
+         * @var [type]
+         */
+        private $id;
+        
+        /**
+         * @OA\Property(
+         *      type="integer",
+         *      example=1
+         * )
+         *
+         * @var [type]
+         */
+        private $product_id;
+
+        /**
+         * @OA\Property(
+         *      type="integer",
+         *      example=132
+         * )
+         *
+         * @var [type]
+         */
+        private $quantityInStock;
 
     /**
      * Get stock list
-     * method="GET"
+     * @OA\Get(
+     *          path="/stock",
+     *          tags={"Stock"},
+     *          @OA\Response(
+     *                  response="200",
+     *                  description="Récupère l'ensemble des stocks",
+     *                  @OA\JsonContent(
+     *                          type="array",
+     *                          @OA\Items(ref="#/components/schemas/Stock")
+     *                  )
+     *          )
+     * )
      *
      * @return void
      */
@@ -21,7 +66,24 @@ class Stock extends General{
 
     /**
      * get stock
-     * method = "GET"
+     * @OA\Get(
+     *          path="stock/{id}",
+     *          tags={"Stock"},
+     *          @OA\Parameter(
+     *                  name="id",
+     *                  in="path",
+     *                  required=true,
+     *                  @OA\Schema(type="integer")
+     *          ),
+     *          @OA\Response(
+     *                  response="200",
+     *                  description="récupération d'un stock suivant son id",
+     *                  @OA\JsonContent(
+     *                          type= "array",
+     *                          @OA\Items(ref="#/components/schemas/Stock")
+     *                  )
+     *          )
+     * )
      *
      * @param int $id
      * @return void
@@ -40,7 +102,27 @@ class Stock extends General{
 
     /**
      * Update stock
-     * method="PUT"
+     * @OA\Put(
+     *          path="stock/{id}",
+     *          tags={"Stock"},
+     *          @OA\Parameter(
+     *                  name="id",
+     *                  in="path",
+     *                  required=true,
+     *                  @OA\Schema(type="integer")
+     *          ),
+     *          @OA\RequestBody(
+     *                  ref="#/components/requestBodies/postStock"
+     *          ),
+     *          @OA\Response(
+     *                  response="200",
+     *                  description="récupération d'un stock suivant son id",
+     *                  @OA\JsonContent(
+     *                          type= "array",
+     *                          @OA\Items(ref="#/components/schemas/Stock")
+     *                  )
+     *          )
+     * )
      *
      * @param integer $id
      * @param string $json

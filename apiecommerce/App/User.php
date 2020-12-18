@@ -1,12 +1,68 @@
 <?php
 
 use Firebase\JWT\JWT;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema()
+ */
 class User extends General{
 
     /**
+     * @OA\Property(
+     *      type="integer",
+     *      example=1
+     * )
+     */
+    private $id;
+
+    /**
+     * @OA\Property(
+     *      type="string",
+     *      example="John"
+     * )
+     */
+    private $firstname;
+
+    /**
+     * @OA\Property(
+     *      type="string",
+     *      example="Doe"
+     * )
+     */
+    private $lastname;
+
+    /**
+     * @OA\Property(
+     *      type="string",
+     *      example="john@doe.fr"
+     * )
+     */
+    private $email;
+
+    /**
+     * @OA\Property(
+     *      type="string",
+     *      example="password"
+     * )
+     */
+    private $password;
+
+    /**
      * Save user in DB
-     * method="POST"
+     * @OA\Post(
+     *      path="/user/signup",
+     *      tags={"User"},
+     *      @OA\RequestBody(ref="#/components/requestBodies/postUser"),
+     *      @OA\Response(
+     *          response="200",
+     *          description="Utilisateur enregistré",
+     *          @OA\JsonContent(
+     *              type="string",
+     *              example="L'utilisateur a bien été enregistré"
+     *          )
+     *      )
+     * )
      *
      * @param array $data
      * @return void
@@ -29,7 +85,19 @@ class User extends General{
 
     /**
      * Verify user in DB
-     * method="POST"
+     * @OA\Post(
+     *      path="/user/login",
+     *      tags={"User"},
+     *      @OA\RequestBody(ref="#/components/requestBodies/login"),
+     *      @OA\Response(
+     *          response="200",
+     *          description="Utilisateur enregistré",
+     *          @OA\JsonContent(
+     *              type="string",
+     *              example="L'utilisateur a bien été enregistré"
+     *          )
+     *      )
+     * )
      *
      * @param array $data
      * @return void
@@ -54,7 +122,18 @@ class User extends General{
 
     /**
      * get users
-     * method="GET"
+     * @OA\Get(
+     *      path="/user",
+     *      tags={"User"},
+     *      @OA\Response(
+     *          response="200",
+     *          description="récupération d'un stock suivant son id",
+     *          @OA\JsonContent(
+     *              type= "array",
+     *              @OA\Items(ref="#/components/schemas/User")
+     *          )
+     *      )
+     * )
      *
      * @return void
      */
@@ -68,7 +147,26 @@ class User extends General{
 
     /**
      * Update user
-     * method="PUT"
+     * @OA\Put(
+     *      path="/user/{id}",
+     *      tags={"User"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          @OA\Schema(type="integer"),
+     *          required=true,
+     *          description="Id de l'utilisateur"
+     *      ),
+     *      @OA\RequestBody(ref="#/components/requestBodies/updateUser"),
+     *      @OA\Response(
+     *          response="200",
+     *          description="Mise à jour de l'utilisateur",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#/components/schemas/User")
+     *          )
+     *      )
+     * )
      *
      * @param integer $id
      * @param string $json
@@ -89,7 +187,24 @@ class User extends General{
 
     /**
      * Delete user
-     * method="DELETE"
+     * @OA\Delete(
+     *      path="/user/{id}",
+     *      tags={"User"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          @OA\Schema(type="integer"),
+     *          required=true
+     *      ),
+     *      @OA\Response(
+     *          response="200",
+     *          description="Suppression de l'utilisateur ok",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(ref="#components/schemas/User")
+     *          )
+     *      )
+     * )
      *
      * @param integer $id
      * @return void
