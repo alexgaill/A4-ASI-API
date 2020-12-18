@@ -1,0 +1,247 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Mon api ecommerce",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "localhost:8888/cours/IPSSI/A4/API/apiecommerce",
+            "description": "Une api d'entrainement"
+        }
+    ],
+    "paths": {
+        "/product": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Get products",
+                "operationId": "Product::getAll",
+                "responses": {
+                    "200": {
+                        "description": "Récupère tous les produits",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "description",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Get products",
+                                                "type": "integer",
+                                                "nullable": true
+                                            },
+                                            "name": {
+                                                "description": "Get products",
+                                                "type": "string",
+                                                "nullable": false
+                                            },
+                                            "infos": {
+                                                "description": "Get products",
+                                                "type": "string",
+                                                "nullable": false
+                                            },
+                                            "buyPrice": {
+                                                "description": "Get products",
+                                                "type": "integer",
+                                                "nullable": false
+                                            },
+                                            "sellPrice": {
+                                                "description": "Get products",
+                                                "type": "integer",
+                                                "nullable": false
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur lors de la récupération des produits",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Erreur lors de la récupéréation des produits",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Update one product",
+                "operationId": "Product::updateOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du produit que l'on souhaite récupérer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/postProduct"
+                },
+                "responses": {
+                    "200": {
+                        "description": "post product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "description",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Get one product",
+                "operationId": "Product::getOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du produit que l'on souhaite récupérer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Récupère un produit en fonction de son id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "description",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "description": "description",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur lors de la récupération du produit",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Erreur lors de la récupéréation des produits",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Post one product",
+                "operationId": "Product::postOne",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/postProduct"
+                },
+                "responses": {
+                    "200": {
+                        "description": "post product"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "infos": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "buyPrice": {
+                        "type": "integer",
+                        "nullable": false
+                    },
+                    "sellPrice": {
+                        "type": "integer",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "requestBodies": {
+            "postProduct": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "infos",
+                                "buyPrice",
+                                "sellPrice"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "infos": {
+                                    "type": "string"
+                                },
+                                "buyPrice": {
+                                    "type": "integer"
+                                },
+                                "sellPrice": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

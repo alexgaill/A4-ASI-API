@@ -42,7 +42,7 @@ class User extends General{
                 $key = "toto";
                 $payload = array(
                     "exp" => 1272508903998, // Now + 20 minutes
-                    "user" => $user
+                    "user" => $user,
                 );
                 $jwt = JWT::encode($payload, $key);
 
